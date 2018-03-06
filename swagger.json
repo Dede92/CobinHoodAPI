@@ -1,0 +1,392 @@
+{
+	"info": {
+		"title": "CobinHood API REST",
+		"description": ""
+	},
+	"paths": {
+		"/api/v1/market/currencies/<trading_pair_id>": {
+			"get": {
+				"parameters": {
+					"trading_pair_id": "Trading Pair ID"
+				},
+				"description": "Get the latest price of a trading pair",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"trading_pair_id": {
+								"description": "Ticket trading pair Id",
+								"type": "string"
+								},
+							"last_trade_price": {
+								"description": "Latest trade price",
+								"type": "string"
+								},
+							"highest_bid": {
+								"description": "Best bid in current order book",
+								"type": "string"
+								},
+							"lowest_ask": {
+								"description": "Best ask price in current order book",
+								"type": "string"
+								},
+							"24h_volumne": {
+								"description": "Trading volume of the last 24 hours",
+								"type": "string"
+								},
+							"24h_low": {
+								"description": "Lowest trade price of the last 24 hours",
+								"type": "string"
+								},
+							"24h_high": {
+								"description": "Highest trade price of the last 24 hours",
+								"type": "string"
+								},
+							"timestamp": {
+								"description": "Ticker timestamp in milliseconds",
+								"type": "int"
+								}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/market/orderbooks/<trading_pair_id>": {
+			"get": {
+				"parameters": {
+						"trading_pair_id": "Trading Pair ID"
+					},
+				"description": "Get the depth of a symbol (order book)",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"sequence": {
+								"description": "A sequence number that is updated on each orderbook state change",
+								"type": "int"
+								},
+							"price": {
+								"description": "Order price",
+								"type": "string"
+								},
+							"size": {
+								"description": "The aggregated total amount in the price group ",
+								"type": "string"
+								},
+							"count": {
+								"description": "The number of orders within current price range ",
+								"type": "string"
+								}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/trading/orders/<order_id>": {
+			"get": {
+				"parameters": {
+						"order_id": "Order ID"
+					},
+				"description": "Check order's status",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"id": {
+								"description": "Order id",
+								"type": "string"
+								},
+							"trading_pair": {
+								"description": "Trading pair ID",
+								"type": "enum[BTC-USDT, ...]"
+								},
+							"state": {
+								"description": "Order status",
+								"type": "enum[new, queued, open, partially_filled, filled, cancelled]"
+								},
+							"side": {
+								"description": "Order side ",
+								"type": "enum[bid, ask]"
+								},
+							"type": {
+								"description": "Order type",
+								"type": "enum[market, limit, stop, stop_limit, trailing_stop,fill_or_kill]"
+								},
+							"price": {
+								"description": "price",
+								"type": "string"
+								},
+							"size": {
+								"description": "Base amount ",
+								"type": "string"
+								},
+							"filled": {
+								"description": "Amount filled in current order",
+								"type": "string"
+								},
+							"timestamp": {
+								"description": "Order timestamp in milliseconds",
+								"type": "int"
+								},
+							"eq_price": {
+								"description": "The equivalance price",
+								"type": "string"
+								},
+							"completed_at": {
+								"description": "The order filled time",
+								"type": "string"
+								}
+						}
+					}
+				}
+			},
+			"delete": {
+				"parameters": {
+						"order_id": "Order ID"
+					},
+				"description": "Delete order",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/trading/orders": {
+			"get": {
+				"parameters": {
+						"trading_pair_id": "Trading pair ID",
+						"optional": "true"
+					},
+				"description": "Get the list of open orders",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"id": {
+								"description": "Order id",
+								"type": "string"
+								},
+							"trading_pair": {
+								"description": "Trading pair ID",
+								"type": "enum[BTC-USDT, ...]"
+								},
+							"state": {
+								"description": "Order status",
+								"type": "enum[open]"
+								},
+							"side": {
+								"description": "Order side ",
+								"type": "enum[bid, ask]"
+								},
+							"type": {
+								"description": "Order type",
+								"type": "enum[market, limit, stop, stop_limit, trailing_stop,fill_or_kill]"
+								},
+							"price": {
+								"description": "price",
+								"type": "string"
+								},
+							"size": {
+								"description": "Base amount ",
+								"type": "string"
+								},
+							"filled": {
+								"description": "Amount filled in current order",
+								"type": "string"
+								},
+							"timestamp": {
+								"description": "Order timestamp in milliseconds",
+								"type": "int"
+								},
+							"eq_price": {
+								"description": "The equivalance price",
+								"type": "string"
+								},
+							"completed_at": {
+								"description": "The order filled time",
+								"type": "string"
+								}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/trading/orders/limit": {
+			"post": {
+				"parameters": {
+						"trading_pair_id": { 
+							"description": "Trading pair ID",
+							"type": "enum[BTC-USDT, ...]"
+							},
+						"side": { 
+							"description": "Order side",
+							"type": "enum[bid, ask]"
+							},
+						"price": { 
+							"description": "Quote price",
+							"type": "string"
+							},
+						"size": { 
+							"description": "Base amount",
+							"type": "string"
+							}
+					},
+				"description": "Place a LIMIT order",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"id": {
+								"description": "Order id",
+								"type": "string"
+								},
+							"trading_pair": {
+								"description": "Trading pair ID",
+								"type": "enum[BTC-USDT, ...]"
+								},
+							"state": {
+								"description": "Order status",
+								"type": "enum[open]"
+								},
+							"side": {
+								"description": "Order side ",
+								"type": "enum[bid, ask]"
+								},
+							"type": {
+								"description": "Order type",
+								"type": "enum[limit, stop, stop_limit, trailing_stop,fill_or_kill]"
+								},
+							"price": {
+								"description": "price",
+								"type": "string"
+								},
+							"size": {
+								"description": "Base amount ",
+								"type": "string"
+								},
+							"filled": {
+								"description": "Amount filled in current order",
+								"type": "string"
+								},
+							"timestamp": {
+								"description": "Order timestamp in milliseconds",
+								"type": "int"
+								},
+							"eq_price": {
+								"description": "The equivalance price",
+								"type": "string"
+								},
+							"completed_at": {
+								"description": "The order filled time",
+								"type": "string"
+								}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/trading/orders/market": {
+			"post": {
+				"parameters": {
+						"trading_pair_id": { 
+							"description": "Trading pair ID",
+							"type": "enum[BTC-USDT, ...]"
+							},
+						"side": { 
+							"description": "Order side",
+							"type": "enum[bid, ask]"
+							},
+						"price": { 
+							"description": "Quote price",
+							"type": "string"
+							},
+						"size": { 
+							"description": "Base amount",
+							"type": "string"
+							}
+					},
+				"description": "Place a MARKET order",
+				"responses": {
+					"200": {
+						"description": "",
+						"headers": {
+							"Content-type": "application/json",
+							"Accept": "application/json"
+						},
+						"parameters": {
+							"id": {
+								"description": "Order id",
+								"type": "string"
+								},
+							"trading_pair": {
+								"description": "Trading pair ID",
+								"type": "enum[BTC-USDT, ...]"
+								},
+							"state": {
+								"description": "Order status",
+								"type": "enum[open]"
+								},
+							"side": {
+								"description": "Order side ",
+								"type": "enum[bid, ask]"
+								},
+							"type": {
+								"description": "Order type",
+								"type": "enum[limit, stop, stop_limit, trailing_stop,fill_or_kill]"
+								},
+							"price": {
+								"description": "price",
+								"type": "string"
+								},
+							"size": {
+								"description": "Base amount ",
+								"type": "string"
+								},
+							"filled": {
+								"description": "Amount filled in current order",
+								"type": "string"
+								},
+							"timestamp": {
+								"description": "Order timestamp in milliseconds",
+								"type": "int"
+								},
+							"eq_price": {
+								"description": "The equivalance price",
+								"type": "string"
+								},
+							"completed_at": {
+								"description": "The order filled time",
+								"type": "string"
+								}
+						}
+					}
+				}
+			}
+		}
+	}
+}
